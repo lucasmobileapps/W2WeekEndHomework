@@ -32,10 +32,14 @@ class NoteAdapter(private val noteList: MutableList<Notes>, private val noteadap
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.apply {
             noteTextView.text = noteList.get(position).note
+            viewGroup.setOnClickListener{
+                noteadapterDelegate.noteSelect(noteList.get(position))
+            }
         }
     }
     class NoteViewHolder(view: View):RecyclerView.ViewHolder(view){
         val noteTextView: TextView = view.findViewById(R.id.note_textiew)
+        val viewGroup: ConstraintLayout = view.findViewById(R.id.note_itemview)
 
     }
 }

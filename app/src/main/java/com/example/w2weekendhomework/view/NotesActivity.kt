@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.w2weekendhomework.R
@@ -41,8 +42,9 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
         val colorReceived = sharedPreferences.getString("my_app_color", "ERROR")
         val numberNote = sharedPreferences.getInt("Number Note", 0)
 
+
         for (i in 0..numberNote){
-           val retrievedNote = Notes(sharedPreferences.getString("Noteitem_${i.plus(1).toString()}", "Error Note")?:"")
+           val retrievedNote = Notes(sharedPreferences.getString("Noteitem_${i.toString()}", "Error Note")?:"")
             if(!(retrievedNote.note == "Error Note" || retrievedNote.note == ""))
             {
                 noteList.add(retrievedNote)
@@ -96,13 +98,13 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
             }
         }
 
+        setRecyclerViewItemTouchListener()
     }
     fun onClick(view:View){}
 
     override fun onStop() {
         super.onStop()
         val spEditor = sharedPreferences.edit()
-
 
         for (i in noteList.indices){
             spEditor.putString("Noteitem_${i.plus(1).toString()}", noteList[i].note)
@@ -119,6 +121,28 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
 
         val itemDecorator = DividerItemDecoration(this, LinearLayout.VERTICAL)
         note_recyclerview.addItemDecoration(itemDecorator)
+    }
+
+    private fun setRecyclerViewItemTouchListener() {
+
+        //1
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder1: RecyclerView.ViewHolder): Boolean {
+                //2
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                //3
+                val position = viewHolder.adapterPosition
+                noteList.removeAt(position)
+                note_recyclerview.adapter!!.notifyItemRemoved(position)
+            }
+        }
+
+        //4
+        val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(note_recyclerview)
     }
 
 }
