@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -28,23 +29,20 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
     private lateinit var sharedPreferences: SharedPreferences
 
 
-    override fun noteSelect(note: Notes) {
-        val intent = Intent(this, SingleNoteActivity::class.java)
-        startActivity(intent)
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes)
 
         sharedPreferences = this.getSharedPreferences("color_app_101", Context.MODE_PRIVATE)
-        val colorReceived = sharedPreferences.getString("my_app_color", "ERROR")
+        val colorReceived = sharedPreferences.getString("my_app_color", "Error Color")
         val numberNote = sharedPreferences.getInt("Number Note", 0)
 
 
         for (i in 0..numberNote){
-           val retrievedNote = Notes(sharedPreferences.getString("Noteitem_${i.toString()}", "Error Note")?:"")
+           val retrievedNote = Notes(sharedPreferences.getString("Noteitem_${i}", "Error Note")?:"")
+            Log.d("KeyNote", "onStop ${i}")
+
             if(!(retrievedNote.note == "Error Note" || retrievedNote.note == ""))
             {
                 noteList.add(retrievedNote)
@@ -98,7 +96,7 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
             }
         }
 
-        setRecyclerViewItemTouchListener()
+       // setRecyclerViewItemTouchListener()
     }
     fun onClick(view:View){}
 
@@ -107,7 +105,8 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
         val spEditor = sharedPreferences.edit()
 
         for (i in noteList.indices){
-            spEditor.putString("Noteitem_${i.plus(1).toString()}", noteList[i].note)
+            spEditor.putString("Noteitem_${i}", noteList[i].note)
+            Log.d("KeyNote", "onStop ${i}")
         }
         spEditor.putInt("Number Note", noteList.size)
         spEditor.apply()
@@ -122,27 +121,35 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
         val itemDecorator = DividerItemDecoration(this, LinearLayout.VERTICAL)
         note_recyclerview.addItemDecoration(itemDecorator)
     }
-
+/*
     private fun setRecyclerViewItemTouchListener() {
 
-        //1
         val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder1: RecyclerView.ViewHolder): Boolean {
-                //2
                 return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                //3
                 val position = viewHolder.adapterPosition
                 noteList.removeAt(position)
                 note_recyclerview.adapter!!.notifyItemRemoved(position)
             }
         }
-
-        //4
         val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
         itemTouchHelper.attachToRecyclerView(note_recyclerview)
     }
+
+ */
+
+
+override fun noteSelect(note: Notes){
+
+    val intent = Intent(this, SingleNoteActivity::class.java)
+    intent.putExtra("note", note.note)
+    startActivity(intent)
+
+
+}
+
 
 }
