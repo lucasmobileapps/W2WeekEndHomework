@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.activity_notes.view.*
 class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
     lateinit var noteEdittext: String
     var noteList: MutableList<Notes> = mutableListOf()
-
     private lateinit var sharedPreferences: SharedPreferences
 
 
@@ -40,8 +39,9 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
 
         sharedPreferences = this.getSharedPreferences("color_app_101", Context.MODE_PRIVATE)
         val colorReceived = sharedPreferences.getString("my_app_color", "ERROR")
+        val numberNote = sharedPreferences.getInt("Number Note", 0)
 
-        for (i in 0..6){
+        for (i in 0..numberNote){
            val retrievedNote = Notes(sharedPreferences.getString("Noteitem_${i.plus(1).toString()}", "Error Note")?:"")
             if(!(retrievedNote.note == "Error Note" || retrievedNote.note == ""))
             {
@@ -103,9 +103,11 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
         super.onStop()
         val spEditor = sharedPreferences.edit()
 
+
         for (i in noteList.indices){
             spEditor.putString("Noteitem_${i.plus(1).toString()}", noteList[i].note)
         }
+        spEditor.putInt("Number Note", noteList.size)
         spEditor.apply()
 
     }
