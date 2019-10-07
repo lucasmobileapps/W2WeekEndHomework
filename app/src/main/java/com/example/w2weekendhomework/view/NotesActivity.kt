@@ -21,6 +21,8 @@ import com.example.w2weekendhomework.util.ColorObject
 import com.example.w2weekendhomework.adapter.NoteAdapter
 import kotlinx.android.synthetic.main.activity_notes.*
 import kotlinx.android.synthetic.main.activity_notes.view.*
+import kotlinx.android.synthetic.main.note_item_view_layout.*
+import kotlinx.android.synthetic.main.note_item_view_layout.view.*
 
 
 class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
@@ -57,7 +59,6 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
                 notes_activity_layout.etNotes.setTextColor(
                     Color.parseColor("#006D05")
                 )
-
             }
             ColorObject.COLOR_BLUE -> {
                 notes_activity_layout.tvNotesTitle.setTextColor(

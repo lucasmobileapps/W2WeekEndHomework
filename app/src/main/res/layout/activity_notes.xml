@@ -38,6 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnNotes"
         android:textAlignment="center"
         android:textSize="26sp"
+        android:inputType="textMultiLine"
         android:textColor="@color/appBlue"
         android:layout_margin="16dp"/>
 
