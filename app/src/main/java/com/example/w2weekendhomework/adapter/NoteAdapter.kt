@@ -1,5 +1,7 @@
 package com.example.w2weekendhomework.adapter
 
+import android.content.SharedPreferences
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +33,7 @@ class NoteAdapter(private val noteList: MutableList<Notes>, private val noteadap
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.apply {
+
             noteTextView.text = noteList.get(position).note
             viewGroup.setOnClickListener{
                 noteadapterDelegate.noteSelect(noteList.get(position))
