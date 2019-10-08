@@ -97,22 +97,32 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
             }
         }
 
-       // setRecyclerViewItemTouchListener()
+        setRecyclerViewItemTouchListener()
     }
     fun onClick(view:View){}
 
     override fun onStop() {
         super.onStop()
-        val spEditor = sharedPreferences.edit()
-
-        for (i in noteList.indices){
-            spEditor.putString("Noteitem_${i}", noteList[i].note)
-            Log.d("KeyNote", "onStop ${i}")
-        }
-        spEditor.putInt("Number Note", noteList.size)
-        spEditor.apply()
 
     }
+
+    override fun onPause() {
+        super.onPause()
+        val numberNote = sharedPreferences.getInt("Number Note", 0)
+        val spEditor = sharedPreferences.edit()
+
+        if (numberNote != noteList.size) {
+            for (i in noteList.indices) {
+                spEditor.putString("Noteitem_${i}", noteList[i].note)
+                Log.d("KeyNote", "onStop ${i}")
+            }
+            spEditor.putInt("Number Note", noteList.size)
+            spEditor.apply()
+        }
+
+    }
+
+
     fun setUpView(list: MutableList<Notes>){
 
         note_recyclerview.adapter = NoteAdapter(list, this)
@@ -122,8 +132,20 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
         val itemDecorator = DividerItemDecoration(this, LinearLayout.VERTICAL)
         note_recyclerview.addItemDecoration(itemDecorator)
     }
-/*
+
     private fun setRecyclerViewItemTouchListener() {
+
+        val spEditor = sharedPreferences.edit()
+        val numberNote = sharedPreferences.getInt("Number Note", 0)
+
+        if (numberNote != noteList.size) {
+            for (i in noteList.indices) {
+                spEditor.putString("Noteitem_${i}", noteList[i].note)
+                Log.d("KeyNote", "onStop ${i}")
+            }
+            spEditor.putInt("Number Note", noteList.size)
+            spEditor.apply()
+        }
 
         val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder1: RecyclerView.ViewHolder): Boolean {
@@ -134,16 +156,17 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
                 val position = viewHolder.adapterPosition
                 noteList.removeAt(position)
                 note_recyclerview.adapter!!.notifyItemRemoved(position)
+
+                spEditor.clear()
             }
         }
         val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
         itemTouchHelper.attachToRecyclerView(note_recyclerview)
     }
 
- */
-
 
 override fun noteSelect(note: Notes){
+
 
     val intent = Intent(this, SingleNoteActivity::class.java)
     intent.putExtra("note", note.note)

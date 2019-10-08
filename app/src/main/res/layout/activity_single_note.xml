@@ -11,7 +11,7 @@
         android:id="@+id/singleNote_imageview"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/note_edittext"
         app:layout_constraintEnd_toStartOf="@+id/note_textiew"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,12 +26,38 @@
         android:layout_height="wrap_content"
         android:layout_margin="26dp"
         android:textSize="26sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/singlenote_edittext"
         app:layout_constraintStart_toEndOf="@+id/singleNote_imageview"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:hint="Text"
         />
+    <EditText
+        android:id="@+id/singlenote_edittext"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="30dp"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/singlenote_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/singleNote_textview"
+        android:padding="20dp"
+        android:inputType="textMultiLine"
+        android:hint="Enter your note here."/>
+
+    <Button
+        android:id="@+id/singlenote_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="15dp"
+        android:text="Save"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/singlenote_edittext"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

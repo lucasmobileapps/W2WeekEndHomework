@@ -9,32 +9,36 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/note_itemview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#CFEFFF">
+
 
         <ImageView
             android:id="@+id/note_imageview"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:src="@drawable/ic_textsms_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/note_textiew"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="15dp"
-            android:src="@drawable/ic_textsms_black_24dp"/>
-
-
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/note_textiew"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/note_imageview"
             app:layout_constraintTop_toTopOf="parent"
             android:textAlignment="textStart"
             />
+
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
