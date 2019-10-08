@@ -61,6 +61,10 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
                 notes_activity_layout.etNotes.setTextColor(
                     Color.parseColor("#006D05")
                 )
+                notes_activity_layout.notes_activity_layout.setBackgroundColor(
+                    Color.parseColor("#AEFFB2")
+                )
+
             }
             ColorObject.COLOR_BLUE -> {
                 notes_activity_layout.tvNotesTitle.setTextColor(
@@ -69,7 +73,9 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
                 notes_activity_layout.etNotes.setTextColor(
                     Color.parseColor("#00009C")
                 )
-
+                notes_activity_layout.notes_activity_layout.setBackgroundColor(
+                    Color.parseColor("#94DBFD")
+                )
 
             }
             ColorObject.COLOR_RED -> {
@@ -79,7 +85,9 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
                 notes_activity_layout.etNotes.setTextColor(
                     Color.parseColor("#A80000")
                 )
-
+                notes_activity_layout.notes_activity_layout.setBackgroundColor(
+                    Color.parseColor("#FFBBB4")
+                )
             }
         }
         setUpView(noteList)
