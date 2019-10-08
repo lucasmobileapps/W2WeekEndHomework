@@ -28,7 +28,8 @@ import kotlinx.android.synthetic.main.note_item_view_layout.view.*
 class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
     lateinit var noteEdittext: String
     var noteList: MutableList<Notes> = mutableListOf()
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var colorSharedPreferences: SharedPreferences
+    private lateinit var noteSharedPreferences: SharedPreferences
 
 
 
@@ -36,13 +37,14 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes)
 
-        sharedPreferences = this.getSharedPreferences("color_app_101", Context.MODE_PRIVATE)
-        val colorReceived = sharedPreferences.getString("my_app_color", "Error Color")
-        val numberNote = sharedPreferences.getInt("Number Note", 0)
+        colorSharedPreferences = this.getSharedPreferences("color_app_101", Context.MODE_PRIVATE)
+        noteSharedPreferences = this.getSharedPreferences("note_app_101", Context.MODE_PRIVATE)
+        val colorReceived = colorSharedPreferences.getString("my_app_color", "Error Color")
+        val numberNote = noteSharedPreferences.getInt("Number Note", 0)
 
 
         for (i in 0..numberNote){
-           val retrievedNote = Notes(sharedPreferences.getString("Noteitem_${i}", "Error Note")?:"")
+           val retrievedNote = Notes(noteSharedPreferences.getString("Noteitem_${i}", "Error Note")?:"")
             if(!(retrievedNote.note == "Error Note" || retrievedNote.note == ""))
             {
                 noteList.add(retrievedNote)
@@ -91,11 +93,7 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
                 noteList.add(Notes(noteEdittext))
                 note_recyclerview.adapter?.notifyItemInserted(noteList.lastIndex)
 
-             //   val spEditor = sharedPreferences.edit()
-
-             //   spEditor.putInt("Position Note ${noteList.lastIndex}", 99)
                 Log.d("KeyNote", "onButtonClick :${noteList.lastIndex}")
-              //  spEditor.apply()
                 etNotes.text.clear()
 
 
@@ -108,7 +106,8 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
 
     override fun onStop() {
         super.onStop()
-        val spEditor = sharedPreferences.edit()
+        val spEditor = noteSharedPreferences.edit()
+            spEditor.clear()
 
             for (i in noteList.indices) {
                 spEditor.putString("Noteitem_${i}", noteList[i].note)
@@ -145,6 +144,16 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.NoteAdapterDelegate {
                 Log.d("KeyNote", "position: ${position}")
                 noteList.removeAt(position)
                 note_recyclerview.adapter!!.notifyDataSetChanged()
+/*
+                val spEditor = sharedPreferences.edit()
+
+                val retrievedNote = sharedPreferences.getInt("Position Note ${position}", 99)
+                Log.d("KeyNote", "removed at : ${retrievedNote}")
+                spEditor.remove(retrievedNote.toString())
+                spEditor.apply()
+
+
+ */
 
             }
         }
